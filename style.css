@@ -1,0 +1,263 @@
+/* ==========================================================================
+   1. STYLES GÉNÉRAUX & STRUCTURATION EN DEUX COLONNES
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 40px 15px;
+    color: #2c3e50;
+}
+
+/* Le conteneur Flexbox parent principal */
+.main-layout {
+    display: flex;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 25px; /* Espace entre le formulaire et la colonne d'aide */
+    align-items: flex-start;
+}
+
+/* Colonne de gauche : Formulaire principal */
+.form-container {
+    flex: 2; /* Prend deux tiers de la largeur disponible */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+    border-top: 10px solid #2563eb;
+    overflow: hidden;
+}
+
+/* Colonne de droite : Volet d'Aide technique */
+.help-sidebar {
+    flex: 1; /* Prend un tiers de la largeur disponible */
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+    border-top: 10px solid #0284c7;
+    position: sticky;
+    top: 40px; /* Le bloc reste fixe sur l'écran lors du défilement */
+}
+
+/* ==========================================================================
+   2. STYLES DE L'EN-TÊTE ET DES INSTRUCTIONS
+   ========================================================================== */
+.form-header {
+    padding: 30px 25px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.form-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 26px;
+    color: #1e3a8a;
+    font-weight: 700;
+}
+
+.form-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.instructions-box {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #0284c7;
+    border-radius: 6px;
+    margin: 15px 0 25px 0; /* Ajustement des marges internes à la carte */
+    padding: 20px;
+}
+
+.instructions-box h3 {
+    margin-top: 0;
+    color: #0369a1;
+    font-size: 16px;
+}
+
+.text-to-copy {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #334155;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+    user-select: all; /* Facilite la sélection complète par les étudiants */
+}
+
+/* ==========================================================================
+   3. STYLES DES COMPOSANTS DU FORMULAIRE (STYLE BLOCS INTERNES)
+   ========================================================================== */
+form {
+    padding: 0 25px 30px 25px;
+}
+
+.form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.form-card:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 25px; /* Augmenté légèrement pour aérer avec le texte */
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group-padded {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+label span.required {
+    color: #ef4444;
+}
+
+.input-desc {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* Champs textuels épurés sous forme de lignes */
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 2px solid #cbd5e1;
+    font-size: 15px;
+    color: #1e293b;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-bottom-color: #2563eb;
+}
+
+/* Zone pour le dépôt de l'archive ZIP */
+.file-upload-zone {
+    border: 2px dashed #cbd5e1;
+    background-color: #f8fafc;
+    padding: 25px 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.file-upload-zone:hover {
+    background-color: #f1f5f9;
+    border-color: #2563eb;
+}
+
+/* Bouton principal de soumission */
+.btn-submit {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-submit:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   4. STYLES DU BLOC SIDEBAR D'AIDE ET RENDU DU CODE
+   ========================================================================== */
+.help-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0369a1;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.help-sidebar p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.help-item {
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.help-item strong {
+    color: #1e293b;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.help-sidebar pre {
+    background-color: #f1f5f9;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    color: #0f172a;
+    margin: 0;
+    border-left: 3px solid #cbd5e1;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE DESIGN (POUR LES PETITS ÉCRANS / SMARTPHONES)
+   ========================================================================== */
+@media (max-width: 900px) {
+    .main-layout {
+        flex-direction: column; /* Bascule en une seule colonne sur mobile */
+    }
+    .help-sidebar {
+        position: static;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
