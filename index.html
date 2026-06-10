@@ -16,74 +16,74 @@
                 <p>Répondez aux questions de l'évaluation théorique, puis déposez votre dossier d'exercice pratique compressé en format ZIP.</p>
             </div>
 
-            <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
-                
-                <input type="hidden" name="access_key" value="e7ff43a2-1912-4395-9d4f-7d6f5b85ac29">
+            <form id="examForm" action="https://script.google.com/macros/s/AKfycbwzFaMcG7PIc4EaNQBjNp2hZfEmNnoFeXOdVLVugHS-NpKTaq1kS3IVja4evbZ0lOS4QA/exec" method="POST">
+    
+    <input type="hidden" id="hiddenZipData" name="projet_pratique_zip">
 
-                <div class="form-card">
-                    <div class="section-title">Identification</div>
-                    <div class="form-group">
-                        <label for="name">Nom et Prénom du Candidat <span class="required">*</span></label>
-                        <input type="text" id="name" name="nom_candidat" placeholder="Votre réponse" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Adresse Email <span class="required">*</span></label>
-                        <input type="email" id="email" name="email_candidat" placeholder="Votre réponse" required>
-                    </div>
-                </div>
+    <div class="form-card">
+        <div class="section-title">Identification</div>
+        <div class="form-group">
+            <label for="name">Nom et Prénom du Candidat <span class="required">*</span></label>
+            <input type="text" id="name" name="nom_candidat" placeholder="Votre réponse" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Adresse Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email_candidat" placeholder="Votre réponse" required>
+        </div>
+    </div>
 
-                <div class="form-card">
-                    <div class="section-title">Première Partie : Théorie (Définitions)</div>
-                    
-                    <div class="form-group-padded">
-                        <label for="info">1. Définissez brièvement l'Informatique <span class="required">*</span></label>
-                        <input type="text" id="info" name="def_informatique" placeholder="Votre réponse" required>
-                    </div>
+    <div class="form-card">
+        <div class="section-title">Première Partie : Théorie (Définitions)</div>
+        
+        <div class="form-group-padded">
+            <label for="info">1. Définissez brièvement l'Informatique <span class="required">*</span></label>
+            <input type="text" id="info" name="def_informatique" placeholder="Votre réponse" required>
+        </div>
 
-                    <div class="form-group-padded">
-                        <label for="ia">2. Définissez l'Intelligence Artificielle (IA) <span class="required">*</span></label>
-                        <input type="text" id="ia" name="def_ia" placeholder="Votre réponse" required>
-                    </div>
+        <div class="form-group-padded">
+            <label for="ia">2. Définissez l'Intelligence Artificielle (IA) <span class="required">*</span></label>
+            <input type="text" id="ia" name="def_ia" placeholder="Votre réponse" required>
+        </div>
 
-                    <div class="form-group-padded">
-                        <label for="prompt">3. Définissez ce qu'est un Prompt <span class="required">*</span></label>
-                        <input type="text" id="prompt" name="def_prompt" placeholder="Votre réponse" required>
-                    </div>
+        <div class="form-group-padded">
+            <label for="prompt">3. Définissez ce qu'est un Prompt <span class="required">*</span></label>
+            <input type="text" id="prompt" name="def_prompt" placeholder="Votre réponse" required>
+        </div>
 
-                    <div class="form-group-padded">
-                        <label for="ntic">4. Que signifie le sigle NTIC ? <span class="required">*</span></label>
-                        <input type="text" id="ntic" name="def_ntic" placeholder="Votre réponse" required>
-                    </div>
-                </div>
+        <div class="form-group-padded">
+            <label for="ntic">4. Que signifie le sigle NTIC ? <span class="required">*</span></label>
+            <input type="text" id="ntic" name="def_ntic" placeholder="Votre réponse" required>
+        </div>
+    </div>
 
-                <div class="form-card">
-                    <div class="section-title">Deuxième Partie : Intégration Pratique</div>
-                    
-                    <div class="instructions-box">
-                        <h3>📋 Texte d'exercice à copier-coller</h3>
-                        <p style="margin: 0 0 10px 0; font-size: 13px; color: #475569;">Sélectionnez et copiez l'intégralité du texte ci-dessous pour effectuer votre mise en page HTML/CSS :</p>
-                        <div class="text-to-copy">Résumé du match amical : Maroc vs Madagascar
+    <div class="form-card">
+        <div class="section-title">Deuxième Partie : Intégration Pratique</div>
+        
+        <div class="instructions-box">
+            <h3>📋 Texte d'exercice à copier-coller</h3>
+            <p style="margin: 0 0 10px 0; font-size: 13px; color: #475569;">Sélectionnez et copiez l'intégralité du texte ci-dessous pour effectuer votre mise en page HTML/CSS :</p>
+            <div class="text-to-copy">Résumé du match amical : Maroc vs Madagascar
 
 Dans le cadre de la dernière fenêtre internationale de la FIFA, l'équipe nationale des Barea de Madagascar s'est déplacée au Maroc pour affronter les Lions de l'Atlas lors d'une rencontre amicale de haut niveau. Ce match constituait un test crucial pour le staff technique malgache, désireux d'évaluer l'effectif face à l'une des meilleures formations du continent africain. Malgré une préparation rigoureuse et une volonté évidente de bousculer la hiérarchie, la sélection malgache a mesuré le chemin qui lui reste à parcourir pour rivaliser avec les géants d'Afrique.
 
 Dès l'entame de la rencontre, les Marocains ont imposé un rythme très élevé, privant les Barea de ballons et exploitant la moindre faille défensive. Grâce à une circulation de balle rapide et une efficacité redoutable devant le but, les Lions de l'Atlas ont rapidement pris l'avantage. Les attaquants marocains, profitant d'erreurs de marquage au sein de la défense malgache, ont fait trembler les filets à quatre reprises, scellant une victoire nette et sans bavure sur le score fleuve de 4 buts à 0. 
 
 Du côté de Madagascar, cette lourde défaite 4-0 offre néanmoins de riches enseignements. Les joueurs ont manqué de réalisme dans leurs rares phases offensives et ont souffert physiquement face au pressing adverse. Le sélectionneur pourra utiliser les données de ce match amical pour corriger les automatismes défensifs et ajuster les tactiques avant les prochaines échéances officielles. Pour les Barea, ce duel au Maroc reste une expérience formatrice indispensable pour grandir sur la scène internationale.</div>
-                    </div>
+        </div>
 
-                    <div class="form-group-padded">
-                        <label for="file-upload">Déposez votre dossier d'examen compressé (.zip) <span class="required">*</span></label>
-                        <span class="input-desc">Votre archive doit contenir votre code structuré : vos fichiers HTML et CSS.</span>
-                        
-                        <div class="file-upload-zone">
-                            <input type="file" id="file-upload" name="projet_pratique_zip" accept=".zip,.rar,.7z" required>
-                        </div>
-                    </div>
-                </div>
+        <div class="form-group-padded">
+            <label for="file-upload">Déposez votre dossier d'examen compressé (.zip) <span class="required">*</span></label>
+            <span class="input-desc">Votre archive doit contenir votre code structuré : vos fichiers HTML et CSS.</span>
+            
+            <div class="file-upload-zone">
+                <input type="file" id="file-upload" accept=".zip,.rar,.7z" required>
+            </div>
+        </div>
+    </div>
 
-                <button type="submit" class="btn-submit">Soumettre ma copie d'examen</button>
+    <button type="submit" class="btn-submit">Soumettre ma copie d'examen</button>
 
-            </form>
+</form>
         </div>
 
         <div class="help-sidebar">
