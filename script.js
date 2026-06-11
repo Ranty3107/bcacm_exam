@@ -3,10 +3,69 @@ document.addEventListener("DOMContentLoaded", function() {
     const submitBtn = document.querySelector('.btn-submit');
     const fileInput = document.getElementById('file-upload');
     const hiddenZipData = document.getElementById('hiddenZipData');
+    const btnPrintPDF = document.getElementById('btnPrintPDF');
 
+    // ==========================================================================
+    // MODULE D'IMPRESSION ET TÉLÉCHARGEMENT DIRECT EN PDF (RÉPARÉ)
+    // ==========================================================================
+    if (btnPrintPDF && form) {
+        btnPrintPDF.addEventListener('click', function(e) {
+            e.preventDefault(); // Annule tout comportement natif gênant
+
+            // SOLUTION DE SECOURS AUTOMATIQUE : Si html2pdf n'est pas chargé sur la machine
+            if (typeof html2pdf === 'undefined') {
+                console.warn("html2pdf non détecté. Bascule automatique sur l'impression système.");
+                // Lance l'impression native. Le CSS @media print nettoiera automatiquement la page (retrait des boutons, aide, etc.)
+                window.print();
+                return;
+            }
+
+            // ÉTAPE DE SÉCURITÉ : Verrouiller les valeurs tapées par l'étudiant dans le DOM
+            form.querySelectorAll('input[type="text"], input[type="email"]').forEach(input => {
+                input.setAttribute('value', input.value);
+            });
+            form.querySelectorAll('textarea').forEach(textarea => {
+                textarea.textContent = textarea.value;
+            });
+
+            // Configuration pour un téléchargement propre au format A4
+            const options = {
+                margin:       [10, 10, 10, 10], 
+                filename:     'Copie_Examen_Integration_Web.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2,           
+                    useCORS: true,      
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF:        { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+
+            // Masquer temporairement la barre d'action du bas
+            const footerBar = document.querySelector('.actions-footer-bar');
+            if (footerBar) footerBar.style.display = 'none';
+
+            // Lancement de la compilation du fichier PDF
+            html2pdf().set(options).from(form).save().then(() => {
+                if (footerBar) footerBar.style.display = 'flex';
+            }).catch(err => {
+                console.error("Erreur html2pdf, bascule sur l'impression système :", err);
+                if (footerBar) footerBar.style.display = 'flex';
+                window.print();
+            });
+        });
+    }
+
+    // ==========================================================================
+    // MODULE DE TRANSMISSION DES DONNÉES (SOUMISSION GOOGLE APPS SCRIPT)
+    // ==========================================================================
     if (form && submitBtn && fileInput && hiddenZipData) {
         form.addEventListener('submit', function(e) {
-            // Bloquer la redirection par défaut du navigateur
             e.preventDefault();
 
             // Changement d'état visuel du bouton de soumission
@@ -21,10 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const reader = new FileReader();
                 
                 reader.onload = function(event) {
-                    // Injecter le fichier encodé en Base64 dans le champ masqué
                     hiddenZipData.value = event.target.result;
-                    
-                    // Lancer l'envoi AJAX en arrière-plan
                     envoyerDonneesFormulaire(form, submitBtn);
                 };
                 
@@ -62,7 +118,6 @@ function envoyerDonneesFormulaire(form, submitBtn) {
         }
     })
     .catch((error) => {
-        // Secours CORS : Si Google traite l'envoi mais bloque la lecture de la réponse
         console.log("Données transmises au script de traitement.");
         const nomSaisi = document.getElementById('name').value;
         afficherPageSucces(nomSaisi);
