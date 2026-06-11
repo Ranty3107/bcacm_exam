@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (form && submitBtn && fileInput && hiddenZipData) {
         form.addEventListener('submit', function(e) {
-            // 1. Bloquer la redirection vers la page grise de Google
+            // Bloquer la redirection par défaut du navigateur
             e.preventDefault();
 
-            // 2. Changement d'état visuel du bouton
+            // Changement d'état visuel du bouton de soumission
             submitBtn.textContent = "Chiffrement et transfert du projet en cours... Patientez.";
             submitBtn.style.backgroundColor = "#64748b";
             submitBtn.style.cursor = "not-allowed";
@@ -21,31 +21,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 const reader = new FileReader();
                 
                 reader.onload = function(event) {
-                    // Mettre le fichier converti en texte dans le champ caché
+                    // Injecter le fichier encodé en Base64 dans le champ masqué
                     hiddenZipData.value = event.target.result;
                     
-                    // 3. Lancer l'envoi AJAX en arrière-plan sans quitter la page
-                    envoyerDonneesFormulaire();
+                    // Lancer l'envoi AJAX en arrière-plan
+                    envoyerDonneesFormulaire(form, submitBtn);
                 };
                 
                 reader.readAsDataURL(file);
             } else {
-                envoyerDonneesFormulaire();
+                envoyerDonneesFormulaire(form, submitBtn);
             }
         });
     }
+});
 
-    function envoyerDonneesFormulaire() {
+function envoyerDonneesFormulaire(form, submitBtn) {
+    const urlAction = form.getAttribute('data-action'); 
     const formData = new FormData(form);
-
-    // On prépare les paramètres pour un envoi standard propre
     const searchParams = new URLSearchParams();
+    
     for (const pair of formData.entries()) {
         searchParams.append(pair[0], pair[1]);
     }
 
-    // Envoi de la requête en arrière-plan
-    fetch(form.action, {
+    fetch(urlAction, {
         method: 'POST',
         body: searchParams,
         headers: {
@@ -55,24 +55,20 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(response => response.json())
     .then(data => {
         if (data.status === "success" || data.nom) {
-            // Affichage de l'interface moderne réussie
             afficherPageSucces(data.nom || "Candidat");
         } else {
             alert("Erreur retournée par le serveur : " + data.message);
-            reinitialiserBouton();
+            reinitialiserBouton(submitBtn);
         }
     })
     .catch((error) => {
-        // NOTE DE SÉCURITÉ : Parfois Google Apps Script traite les données avec succès 
-        // mais le navigateur bloque la lecture de la réponse (CORS). 
-        // Si le traitement s'est bien fait côté Drive/Email, on affiche quand même le succès.
-        console.log("Note de communication réseau, chargement de l'interface de validation.");
+        // Secours CORS : Si Google traite l'envoi mais bloque la lecture de la réponse
+        console.log("Données transmises au script de traitement.");
         const nomSaisi = document.getElementById('name').value;
         afficherPageSucces(nomSaisi);
     });
 }
 
-// Nouvelle fonction isolée pour générer l'interface élégante
 function afficherPageSucces(nomCandidat) {
     document.body.innerHTML = `
         <div class="success-page-container">
@@ -98,7 +94,6 @@ function afficherPageSucces(nomCandidat) {
         </div>
     `;
 
-    // Gestionnaire d'événement pour fermer ou rediriger
     document.getElementById('btnFermerOutil').addEventListener('click', function() {
         window.close();
         setTimeout(function() {
@@ -107,10 +102,9 @@ function afficherPageSucces(nomCandidat) {
     });
 }
 
-    // Petite fonction utilitaire en cas d'échec pour redonner la main à l'élève
-    function reinitialiserBouton() {
-        submitBtn.textContent = "Soumettre ma copie d'examen";
-        submitBtn.style.backgroundColor = ""; // Reprend le style CSS d'origine
-        submitBtn.style.cursor = "pointer";
-        submitBtn.disabled = false;
-    }
+function reinitialiserBouton(submitBtn) {
+    submitBtn.textContent = "Soumettre ma copie d'examen";
+    submitBtn.style.backgroundColor = ""; 
+    submitBtn.style.cursor = "pointer";
+    submitBtn.disabled = false;
+}
