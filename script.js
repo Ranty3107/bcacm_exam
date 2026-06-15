@@ -468,13 +468,40 @@ function configurerModuleSoumission() {
 
 function envoyerDonneesAuServeur(formulaire, bouton) {
     const endpointUrl = formulaire.getAttribute('data-action'); 
-    const donneesFormulaire = new FormData(formulaire);
     const parametresEnvoi = new URLSearchParams();
     
+    // 1. On récupère d'abord tous les champs standards (Nom, Prénom, Email, Matricule, etc.)
+    const donneesFormulaire = new FormData(formulaire);
     for (const entree of donneesFormulaire.entries()) {
         parametresEnvoi.append(entree[0], entree[1]);
     }
 
+    // 2. CORRECTION CRITIQUE : On capture dynamiquement chaque question et sa réponse
+    // On cible chaque groupe de question théorique généré dans le conteneur
+    const blocsQuestions = document.querySelectorAll('#theoreticalQuestionsContainer .form-group-padded');
+    
+    blocsQuestions.forEach(bloc => {
+        const label = bloc.querySelector('label');
+        const textarea = bloc.querySelector('textarea');
+        
+        if (label && textarea) {
+            // On extrait le texte de la question propre (ex: "Définissez brièvement l'Informatique")
+            // On nettoie le numéro au début (ex: "1. ") et l'astérisque de fin " *"
+            let texteQuestion = label.textContent.replace(/^\d+\.\s*/, '').replace(/\s*\*$/, '').trim();
+            
+            // On isole le mot-clé principal ou le titre court si nécessaire pour votre serveur
+            // (ex: "Définissez l'Intelligence Artificielle (IA)" -> peut être nettoyé ou envoyé brut)
+            if (texteQuestion.includes("l'Informatique")) texteQuestion = "Informatique";
+            if (texteQuestion.includes("(IA)")) texteQuestion = "IA";
+            if (texteQuestion.includes("Prompt")) texteQuestion = "Prompt";
+            if (texteQuestion.includes("NTIC")) texteQuestion = "NTIC";
+
+            // On ajoute la clé propre et la valeur tapée par l'étudiant aux paramètres d'envoi
+            parametresEnvoi.append(texteQuestion, textarea.value.trim());
+        }
+    });
+
+    // 3. Envoi final des données nettoyées et complètes au serveur
     fetch(endpointUrl, {
         method: 'POST',
         body: parametresEnvoi,
