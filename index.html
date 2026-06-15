@@ -3,185 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Examen Officiel : Informatique & Intégration Web</title>
+    <title>Plateforme Institutionnelle d'Évaluation Numérique</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="main-layout">
-        
-        <div class="help-sidebar">
-            <div class="help-title">💡 AIDE / CONSIGNES CSS</div>
-            
-            <div class="help-intro">
-                
-            <p class="consigne">Vous devez créer une page web contenant le résumé du match amical de football entre le Maroc et Madagascar. Vous utiliserez <strong>HTML et CSS</strong> pour structurer et mettre en forme la page. Tout le code CSS doit être intégré soit dans une balise <code>&lt;style&gt;</code> dans le fichier HTML, soit dans un fichier séparé <code>style.css</code>.</p>
-                
-                <div class="barame-title">📋 Consignes de mise en page (Barème de notation)</div>
-                <ul>
-                    <li><strong>Le Titre Principal :</strong> Doit être parfaitement centré, écrit en gras et en <em>italique</em>. <span>(2 points)</span></li>
-                    <li><strong>Le Premier Paragraphe :</strong> Doit utiliser la police de caractères Arial, avoir une taille de 30px, et son texte doit être justifié. <span>(2 points)</span></li>
-                    <li><strong>Le Deuxième et Troisième Paragraphe :</strong> Doivent être disposés côte à côte, divisés en deux colonnes de même taille. <span>(3 points)</span></li>
-                    <li><strong>Signature du candidat :</strong> Tout en bas de la page, votre nom et prénom doivent être affichés sur la partie droite de l'écran, et écrits en <em>italique</em>. <span>(2 points)</span></li>
-                    <li><strong>Structure globale :</strong> Respect des balises HTML5 et bonne indentation du code. <span>(1 point)</span></li>
-                </ul>
-                <p>Utilisez ces propriétés spécifiques dans votre fichier <code>style.css</code> pour réussir la mise en page attendue :</p>
-            </div>
-            
-            <div class="help-item">
-                <strong>Titre principal :</strong>
-                <pre>text-align: center;<br>font-weight: bold;<br>font-style: italic;</pre>
-            </div>
-
-            <div class="help-item">
-                <strong>Paragraphe 1 :</strong>
-                <pre>font-family: Arial, sans-serif;<br>font-size: 30px;<br>text-align: justify;</pre>
-            </div>
-
-            <div class="help-item">
-                <strong>Paragraphe 2 & 3 (Colonnes) :</strong>
-                <p>Pensez à appliquer le modèle Flexbox sur le conteneur parent de vos paragraphes :</p>
-                <pre>display: flex;</pre>
-            </div>
-
-            <div class="help-item">
-                <strong>Votre Nom et Prénom :</strong>
-                <pre>text-align: right;<br>font-style: italic;</pre>
+    <div id="viewLogin" class="app-view active">
+        <div class="login-wrapper">
+            <div class="login-card">
+                <div class="login-logo">
+                    <h2>ESPACE D'EXAMEN</h2>
+                    <p>Authentification officielle du candidat</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-control-group">
+                        <label for="loginMatricule">N° Matricule <span class="required">*</span></label>
+                        <input type="text" id="loginMatricule" class="form-input" placeholder="Ex: MAT-2026-098" required>
+                    </div>
+                    <div class="form-control-group">
+                        <label for="loginNom">Nom <span class="required">*</span></label>
+                        <input type="text" id="loginNom" class="form-input" placeholder="Votre nom de famille" required>
+                    </div>
+                    <div class="form-control-group">
+                        <label for="loginPrenom">Prénom <span class="required">*</span></label>
+                        <input type="text" id="loginPrenom" class="form-input" placeholder="Votre prénom" required>
+                    </div>
+                    <button type="submit" class="btn-primary-block">Accéder au tableau des épreuves</button>
+                </form>
+                <div class="admin-trigger-zone">
+                    Espace enseignant ? <span id="btnTriggerAdmin">Gérer les sujets</span>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="form-container">
+    <div id="viewDashboard" class="app-view">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <div class="user-welcome">
+                    <h1 id="dashWelcomeTitle">Bonjour, [Nom Etudiant]</h1>
+                    <p>Matricule : <span id="dashMatriculeBadge">---</span> | Session Officielle Établie</p>
+                </div>
+                <button class="btn-logout" id="btnLogout">Quitter l'espace</button>
+            </div>
+            <h2 class="dashboard-section-title">Épreuves Écrites Disponibles :</h2>
+            <div class="subjects-grid" id="subjectsGridContainer"></div>
+        </div>
+    </div>
+
+    <div id="viewExamPage" class="app-view">
+        <div class="main-layout">
             
-            <form id="examForm" method="POST" data-action="https://script.google.com/macros/s/AKfycbwzFaMcG7PIc4EaNQBjNp2hZfEmNnoFeXOdVLVugHS-NpKTaq1kS3IVja4evbZ0lOS4QA/exec">    
-                <input type="hidden" id="hiddenZipData" name="projet_pratique_zip">
+            <div class="help-sidebar" id="examSidebarDynamic"></div>
 
-                <div class="exam-header-zone">
-                    <div class="exam-meta-left">
-                        <div class="meta-field">
-                            <strong>CONCOURS :</strong> 
-                            <input type="text" class="header-inline-input" placeholder="Ex: Certification Intégrateur" value="Examen Officiel">
-                        </div>
-                        <div class="meta-field">
-                            <strong>ÉPREUVE :</strong> 
-                            <span class="highlight-spec">Informatique & Intégration Web</span>
-                        </div>
-                        <div class="meta-field">
-                            <strong>DATE :</strong> 
-                            <input type="date" class="header-inline-input" placeholder="Daty nanaovana examen">
-                        </div>
-                    </div>
-                    
-                    <div class="exam-anonymat-box">
-                        <div class="black-triangle"></div>
-                        <div class="anonymat-fields">
-                            <div class="header-field-group">
-                                <label for="name">NOM :</label>
-                                <input type="text" id="name" name="nom_candidat" placeholder="Écrivez votre Nom" required>
+            <div class="form-container">
+                <form id="examForm" method="POST" data-action="https://script.google.com/macros/s/AKfycbwzFaMcG7PIc4EaNQBjNp2hZfEmNnoFeXOdVLVugHS-NpKTaq1kS3IVja4evbZ0lOS4QA/exec">    
+                    <input type="hidden" id="hiddenZipData" name="projet_pratique_zip">
+                    <input type="hidden" id="hiddenSubjectName" name="matiere_examen">
+                    <input type="hidden" id="hiddenMatricule" name="matricule_candidat">
+
+                    <div class="exam-header-zone">
+                        <div class="exam-meta-left">
+                            <div class="meta-field">
+                                <strong>CONCOURS :</strong> 
+                                <input type="text" class="header-inline-input" name="concours_titre" value="Examen Officiel">
                             </div>
-                            
-                            <div class="header-field-group">
-                                <label for="prenom">Prénom :</label>
-                                <input type="text" id="prenom" placeholder="Votre Prénom" required>
+                            <div class="meta-field">
+                                <strong>ÉPREUVE :</strong> 
+                                <span class="highlight-spec" id="examSubjectBadge">MATIERE</span>
                             </div>
-                            
-                            <div class="header-field-group">
-                                <label for="email">Email <span class="required">*</span> :</label>
-                                <input type="email" id="email" name="email_candidat" placeholder="votre.email@exemple.com" required>
+                            <div class="meta-field">
+                                <strong>DATE :</strong> 
+                                <input type="date" class="header-inline-input" name="date_session" id="examDateAuto">
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="exam-notation-bar">
-                    <div class="score-box">
-                        <span class="score-label">Note :</span>
-                        <span class="score-value">/ 20</span>
-                    </div>
-                    <div class="corrector-obs">
-                        <div class="obs-warning">IL EST INTERDIT AU CANDIDAT DE SIGNER SA COPIE OU DE FAIRE APPARAÎTRE UN SIGNE DISTINCT QUELCONQUE</div>
-                        <div class="obs-title">Observations du correcteur</div>
-                    </div>
-                </div>
-
-                <div class="form-header">
-                    <h1>Examen Officiel : Informatique & Intégration Web</h1>
-                    <p>Répondez aux questions de l'évaluation théorique, puis déposez votre dossier d'exercice pratique compressé en format ZIP.</p>
-                </div>
-
-                <div class="form-card">
-                    <div class="section-title">Première Partie : Théorie (Définitions)</div>
-                    
-                    <div class="form-group-padded">
-                        <label for="info">1. Définissez brièvement l'Informatique <span class="required">*</span></label>
-                        <div class="seyes-textarea-wrapper">
-                            <textarea id="info" name="def_informatique" rows="4" placeholder="Votre réponse détaillée ici..." required></textarea>
-                            <div class="seyes-grid-lines"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group-padded">
-                        <label for="ia">2. Définissez l'Intelligence Artificielle (IA) <span class="required">*</span></label>
-                        <div class="seyes-textarea-wrapper">
-                            <textarea id="ia" name="def_ia" rows="4" placeholder="Votre réponse détaillée ici..." required></textarea>
-                            <div class="seyes-grid-lines"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group-padded">
-                        <label for="prompt">3. Définissez ce qu'est un Prompt <span class="required">*</span></label>
-                        <div class="seyes-textarea-wrapper">
-                            <textarea id="prompt" name="def_prompt" rows="4" placeholder="Votre réponse détaillée ici..." required></textarea>
-                            <div class="seyes-grid-lines"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group-padded">
-                        <label for="ntic">4. Que signifie le sigle NTIC ? <span class="required">*</span></label>
-                        <div class="seyes-textarea-wrapper">
-                            <textarea id="ntic" name="def_ntic" rows="4" placeholder="Votre réponse détaillée ici..." required></textarea>
-                            <div class="seyes-grid-lines"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-card">
-                    <div class="section-title">Deuxième Partie : Intégration Pratique</div>
-                    
-                    <div class="instructions-box">
-                        <h3>📋 Texte d'exercice à copier-coller</h3>
-                        <p style="margin: 0 0 10px 0; font-size: 13px; color: #475569;">Le candidat doit copier le bloc ci-dessous pour réaliser l'intégration demandée :</p>
-                        <div class="text-to-copy">Résumé du match amical : Maroc vs Madagascar
-
-Dans le cadre de la dernière fenêtre internationale de la FIFA, l'équipe nationale des Barea de Madagascar s'est déplacée au Maroc pour affronter les Lions de l'Atlas lors d'une rencontre amicale de haut niveau. Ce match constituait un test crucial pour le staff technique malgache, désireux d'évaluer l'effectif face à l'une des meilleures formations du continent africain. Malgré une préparation rigoureuse et une volonté évidente de bousculer la hiérarchie, la sélection malgache a mesuré le chemin qui lui reste à parcourir pour rivaliser avec les géants d'Afrique.
-
-Dès l'entame de la rencontre, les Marocains ont imposé un rythme très élevé, privant les Barea de ballons et exploitant la moindre faille défensive. Grâce à une circulation de balle rapide et une efficacité redoutable devant le but, les Lions de l'Atlas ont rapidement pris l'avantage. Les attaquants marocains, profitant d'erreurs de marquage au sein de la défense malgache, ont fait trembler les filets à quatre reprises, scellant une victoire nette et sans bavure sur le score fleuve de 4 buts à 0. 
-
-Du côté de Madagascar, cette lourde défaite 4-0 offre néanmoins de riches enseignements. Les joueurs ont manqué de réalisme dans leurs rares phases offensives et ont souffert physiquement face au pressing adverse. Le sélectionneur pourra utiliser les données de ce match amical pour corriger les automatismes défensifs et ajuster les tactiques avant les prochaines échéances officielles. Pour les Barea, ce duel au Maroc reste une expérience formatrice indispensable pour grandir sur la scène internationale.</div>
-                    </div>
-
-                    <div class="form-group-padded">
-                        <label for="file-upload">Déposez votre dossier d'examen compressé (.zip) <span class="required">*</span></label>
-                        <span class="input-desc">Votre archive doit contenir votre code structuré : vos fichiers HTML et CSS.</span>
                         
-                        <div class="file-upload-zone">
-                            <input type="file" id="file-upload" accept=".zip,.rar,.7z" required>
+                        <div class="exam-anonymat-box">
+                            <div class="black-triangle"></div>
+                            <div class="anonymat-fields">
+                                <div class="header-field-group">
+                                    <label>NOM :</label>
+                                    <input type="text" id="examInputNom" name="nom_candidat" readonly>
+                                </div>
+                                <div class="header-field-group">
+                                    <label>Prénom :</label>
+                                    <input type="text" id="examInputPrenom" name="prenom_candidat" readonly>
+                                </div>
+                                <div class="header-field-group">
+                                    <label>Email <span class="required">*</span> :</label>
+                                    <input type="email" id="examInputEmail" name="email_candidat" placeholder="etudiant@domaine.com" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="actions-footer-bar">
-                    <button type="submit" class="btn-submit">Soumettre ma copie d'examen</button>
-                    
-                    <button type="button" id="btnPrintPDF" class="btn-pdf">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
-                            <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                            <path d="M6 14h12v8H6z"></path>
-                        </svg>Imprimer la copie en PDF
-                    </button>
-                </div>
-            </form>
+                    <div class="exam-notation-bar">
+                        <div class="score-box">
+                            <span class="score-label">Note :</span>
+                            <span class="score-value">/ 20</span>
+                        </div>
+                        <div class="corrector-obs">
+                            <div class="obs-warning">IL EST INTERDIT AU CANDIDAT DE SIGNER SA COPIE OU DE FAIRE APPARAÎTRE UN SIGNE DISTINCT QUELCONQUE</div>
+                            <div class="obs-title">Observations du correcteur</div>
+                        </div>
+                    </div>
+
+                    <div class="form-header">
+                        <h1 id="examTitleMain">Épreuve Officielle</h1>
+                        <p>Veuillez traiter l'ensemble des questions théoriques posées puis accomplir le livrable pratique demandé.</p>
+                    </div>
+
+                    <div class="form-card" id="theoreticalQuestionsContainer"></div>
+
+                    <div class="form-card">
+                        <div class="section-title">Deuxième Partie : Intégration Pratique</div>
+                        
+                        <div class="instructions-box" id="practicalInstructionsContainer"></div>
+                        
+                        <div class="form-group-padded">
+                            <h3>📋 Texte d'exercice à copier-coller</h3>
+                            <p class="section-subtext">Exploitez rigoureusement le texte ci-dessous pour réaliser le projet demandé :</p>
+                            <div class="text-to-copy" id="practicalTextToCopy"></div>
+                        </div>
+
+                        <div class="form-group-padded">
+                            <label for="file-upload">Déposez votre dossier d'examen compressé (.zip) <span class="required">*</span></label>
+                            <span class="input-desc">Votre archive (.zip) doit englober l'ensemble de vos productions correspondantes.</span>
+                            <div class="file-upload-zone">
+                                <input type="file" id="file-upload" accept=".zip,.rar,.7z" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions-footer-bar">
+                        <button type="button" class="btn-back-dash" id="btnBackToDashboard">← Retour aux matières</button>
+                        <div class="actions-right-group">
+                            <button type="button" id="btnPrintPDF" class="btn-pdf">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                                    <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                    <path d="M6 14h12v8H6z"></path>
+                                </svg>Sauvegarder en PDF
+                            </button>
+                            <button type="submit" class="btn-submit" id="btnSubmitExam">Soumettre ma copie définitive</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
 
+    <div id="viewAdmin" class="app-view">
+        <div class="admin-layout">
+            <div class="admin-header">
+                <div>
+                    <h1>Panneau d'Administration des Épreuves</h1>
+                    <p class="admin-subtitle">Édition temps réel des sujets théoriques et guides pratiques</p>
+                </div>
+                <button class="btn-back-dash" id="btnAdminBackToPublic">Retour au Portail public</button>
+            </div>
+            
+            <div class="admin-main">
+                <div class="admin-sidebar-subjects">
+                    <h3>📚 Matières actives</h3>
+                    <ul class="admin-subj-list" id="adminSubjectsList"></ul>
+                    <p class="admin-sidebar-note">Note : Pour ajouter ou supprimer définitivement une matière, modifiez la structure "EXAM_DATABASE" dans votre fichier script.js.</p>
+                </div>
+                
+                <div class="admin-editor-card">
+                    <h2 class="editor-section-title" id="adminCurrentEditingTitle">Édition du sujet</h2>
+                    <form id="adminEditorForm">
+                        <div class="form-control-group">
+                            <label>Description Courte de la Matière (S'affiche sur le Tableau de bord)</label>
+                            <input type="text" id="admDesc" class="form-input">
+                        </div>
+                        
+                        <div id="admQuestionsContainer"></div>
+
+                        <div class="form-control-group textarea-admin-group">
+                            <label>Consignes Pratiques & Barème (Format HTML accepté)</label>
+                            <textarea id="admPratiqueInstructions" class="form-input" rows="6"></textarea>
+                        </div>
+
+                        <div class="form-control-group">
+                            <label>Texte brut ou énoncé d'exercice à copier-coller</label>
+                            <textarea id="admPratiqueTextToCopy" class="form-input" rows="6"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-save-admin">Enregistrer les modifications du sujet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPasswordModal" class="admin-modal-overlay">
+        <div class="admin-modal-card">
+            <h3>Espace Enseignant</h3>
+            <p>Veuillez saisir le mot de passe administrateur pour accéder à l'espace de configuration :</p>
+            <input type="password" id="adminHiddenPasswordField" class="admin-password-field" placeholder="••••••••">
+            <div class="admin-modal-actions">
+                <button type="button" class="btn-admin-modal-cancel" id="btnCancelAdminModal">Annuler</button>
+                <button type="button" class="btn-admin-modal-confirm" id="btnConfirmAdminModal">Valider</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
